@@ -54,7 +54,6 @@ const useMyNfts = () => {
             );
 
             const ownedTokenIds = [];
-            // const ownedAddress = []
 
 
             decodedResponses.forEach((addr, index) => {
@@ -63,7 +62,6 @@ const useMyNfts = () => {
                     tokenIDs[validResponsesIndex[index]] = String(addr).toLowerCase();
                 }
 
-                // ownedAddress.push(String(addr).toLowerCase())
                 if (
                     String(addr).toLowerCase() === String(address).toLowerCase()
                 )
@@ -71,12 +69,10 @@ const useMyNfts = () => {
             });
 
             setData((prev) => ({ ...prev, adrress: tokenIDs, data: ownedTokenIds }))
-            // setData(ownedTokenIds);
 
         })();
     }, [address, tokenIDs]);
 
-    // console.log(data, isMintedId);
     return { data, isMintedId };
 };
 

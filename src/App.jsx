@@ -26,8 +26,10 @@ function App() {
         add: adrress
     }));
 
-    console.log(adrress);
-
+    const mytokens = myTokensData.map((x) => ({
+        ...x,
+        isMintedId
+    }));
 
 
     return (
@@ -40,7 +42,7 @@ function App() {
                             {myTokensData.length === 0 ? (
                                 <Text>No NFT owned yet</Text>
                             ) : (
-                                myTokensData.map((x) => (
+                                mytokens.map((x, index) => (
                                     <Box key={x.dna} className="w-[20rem]">
                                         <img
                                             src={x.image}
@@ -53,9 +55,12 @@ function App() {
                                         <Text className="block">
                                             Description: {x.description}
                                         </Text>
-                                        <Button className="px-8 py-2 text-xl mt-2">
-                                            Mint
-                                        </Button>
+                                        <Flex direction="column" gap="2">
+                                            <a className="px-4 py-2 text-lg mt-2 bg-blue-700 text-white rounded-lg" href={`${import.meta.env.VITE_opeasea_base_url}${x.isMintedId[index]}`}>see on OpeaSea</a>
+                                            <Button className="px-8 py-2 text-xl mt-2">
+                                                Transfer
+                                            </Button>
+                                        </Flex>
                                     </Box>
                                 ))
                             )}
@@ -81,10 +86,12 @@ function App() {
                                         </Text>
                                         {item.isMinted ?
                                             (
-                                                <>
-                                                    <Button className="px-8 py-2 text-xl mt-2">Transfer</Button>
-                                                    <Text>{item.add[index]}</Text>
-                                                </>
+                                                <Flex direction="column" gap="2">
+                                                    <a className="px-4 py-2 text-lg mt-2 bg-blue-700 text-white rounded-lg" href={`${import.meta.env.VITE_opeasea_base_url}${index}`}>see on OpeaSea</a>
+                                                    <Text>
+                                                        {`${item.add[index]?.slice(0, 7)}...${item.add[index]?.slice(item.add[index].length - 5)}`}
+                                                    </Text>
+                                                </Flex>
                                             ) : <Button className="px-8 py-2 text-xl mt-2">
                                                 Mint
                                             </Button>
