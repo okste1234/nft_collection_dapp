@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
+import useNewOwner from "./useNewOwner";
 
 const useCollections = () => {
     // eslint-disable-next-line no-unused-vars
     const [data, setData] = useState([]);
+    const eventListener = useNewOwner()
+
 
     useEffect(() => {
         (async () => {
@@ -26,7 +29,7 @@ const useCollections = () => {
 
             setData(tokensMetadataJson);
         })();
-    }, []);
+    }, [eventListener]);
 
     return data;
 };

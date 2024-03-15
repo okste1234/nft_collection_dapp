@@ -7,13 +7,14 @@ import useCollections from "./hooks/useCollections";
 import useMyNfts from "./hooks/useMyNfts";
 import Popup from "./component/Popup";
 import useMint from "./hooks/useMint";
+import useNewOwner from "./hooks/useNewOwner";
 
 configureWeb3Modal();
 
 
 
 function App() {
-
+    useNewOwner()
     const tokensData = useCollections();
     const { data: { data, addrress }, isMintedId } = useMyNfts();
     const handleMint = useMint();

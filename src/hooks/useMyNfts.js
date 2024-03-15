@@ -4,10 +4,10 @@ import multicallAbi from "../constants/multicall.json";
 import { readOnlyProvider } from "../constants/providers";
 import { useEffect, useMemo, useState } from "react";
 import { useWeb3ModalAccount } from "@web3modal/ethers/react";
-// import useNewOwner from "./useNewOwner";
+import useNewOwner from "./useNewOwner";
 
 const useMyNfts = () => {
-    // const eventListener = useNewOwner()
+    const eventListener = useNewOwner()
 
     const { address } = useWeb3ModalAccount();
     const [data, setData] = useState({
@@ -73,7 +73,7 @@ const useMyNfts = () => {
             setData((prev) => ({ ...prev, addrress: tokenIDs, data: ownedTokenIds }))
 
         })();
-    }, [address, tokenIDs]);
+    }, [address, tokenIDs, eventListener]);
 
     return { data, isMintedId };
 };
