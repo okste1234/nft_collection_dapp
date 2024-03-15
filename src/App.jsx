@@ -5,6 +5,8 @@ import Header from "./component/Header";
 import AppTabs from "./component/AppTabs";
 import useCollections from "./hooks/useCollections";
 import useMyNfts from "./hooks/useMyNfts";
+import Popup from "./component/Popup";
+import useMint from "./hooks/useMint";
 
 configureWeb3Modal();
 
@@ -12,7 +14,8 @@ configureWeb3Modal();
 
 function App() {
     const tokensData = useCollections();
-    const { data: { data, adrress }, isMintedId } = useMyNfts();
+    const { data: { data, addrress }, isMintedId } = useMyNfts();
+    const handleMint = useMint();
 
 
     const myTokensData = tokensData.filter((x, index) =>
@@ -23,7 +26,7 @@ function App() {
     const tokens = tokensData.map((x, index) => ({
         ...x,
         isMinted: isMintedId.includes(index),
-        add: adrress
+        add: addrress
     }));
 
     const mytokens = myTokensData.map((x) => ({
@@ -55,11 +58,16 @@ function App() {
                                         <Text className="block">
                                             Description: {x.description}
                                         </Text>
-                                        <Flex direction="column" gap="2">
-                                            <a className="px-4 py-2 text-lg mt-2 bg-blue-700 text-white rounded-lg" href={`${import.meta.env.VITE_opeasea_base_url}${x.isMintedId[index]}`}>see on OpeaSea</a>
-                                            <Button className="px-8 py-2 text-xl mt-2">
-                                                Transfer
-                                            </Button>
+                                        <Flex direction="column" gap="2" style={{ marginBottom: "2rem" }}>
+                                            <a className="px-2 py-1 text-lg mt-2 bg-blue-700 text-white rounded-lg" href={`${import.meta.env.VITE_opeasea_base_url}${x.isMintedId[index]}`}>OpeaSea</a>
+                                            <Popup className="mt-2"
+                                                Transfer={
+                                                    <Text>Transfer</Text>
+                                                }
+                                                id={x.isMintedId[index]}
+                                            />
+
+
                                         </Flex>
                                     </Box>
                                 ))
@@ -87,12 +95,14 @@ function App() {
                                         {item.isMinted ?
                                             (
                                                 <Flex direction="column" gap="2">
-                                                    <a className="px-4 py-2 text-lg mt-2 bg-blue-700 text-white rounded-lg" href={`${import.meta.env.VITE_opeasea_base_url}${index}`}>see on OpeaSea</a>
+                                                    <a className="px-4 py-2 text-lg mt-2 bg-blue-700 text-white rounded-lg" href={`${import.meta.env.VITE_opeasea_base_url}${index}`}>OpeaSea</a>
                                                     <Text>
                                                         {`${item.add[index]?.slice(0, 7)}...${item.add[index]?.slice(item.add[index].length - 5)}`}
                                                     </Text>
                                                 </Flex>
-                                            ) : <Button className="px-8 py-2 text-xl mt-2">
+                                            ) : <Button className="px-8 py-2 text-xl mt-2"
+                                                onClick={() => handleMint(index)}
+                                            >
                                                 Mint
                                             </Button>
 
