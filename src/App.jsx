@@ -8,13 +8,28 @@ import useMyNfts from "./hooks/useMyNfts";
 
 configureWeb3Modal();
 
+
+
 function App() {
     const tokensData = useCollections();
-    const myTokenIds = useMyNfts();
+    const { data: { data, adrress }, isMintedId } = useMyNfts();
+
 
     const myTokensData = tokensData.filter((x, index) =>
-        myTokenIds.includes(index)
+        data.includes(index)
     );
+
+
+    const tokens = tokensData.map((x, index) => ({
+        ...x,
+        isMinted: isMintedId.includes(index),
+        add: adrress
+    }));
+
+    console.log(adrress);
+
+
+
     return (
         <Container>
             <Header />
@@ -48,25 +63,33 @@ function App() {
                     }
                     AllCollections={
                         <Flex align="center" gap="8" wrap={"wrap"}>
-                            {tokensData.length === 0 ? (
+                            {tokens.length === 0 ? (
                                 <Text>Loading...</Text>
                             ) : (
-                                tokensData.map((x) => (
-                                    <Box key={x.dna} className="w-[20rem]">
+                                tokens.map((item, index) => (
+                                    <Box key={item.dna} className="w-[20rem]">
                                         <img
-                                            src={x.image}
+                                            src={item.image}
                                             className="w-full object-contain"
-                                            alt={x.name}
+                                            alt={item.name}
                                         />
                                         <Text className="block text-2xl">
-                                            Name: {x.name}
+                                            Name: {item.name}
                                         </Text>
                                         <Text className="block">
-                                            Description: {x.description}
+                                            Description: {item.description}
                                         </Text>
-                                        <Button className="px-8 py-2 text-xl mt-2">
-                                            Mint
-                                        </Button>
+                                        {item.isMinted ?
+                                            (
+                                                <>
+                                                    <Button className="px-8 py-2 text-xl mt-2">Transfer</Button>
+                                                    <Text>{item.add[index]}</Text>
+                                                </>
+                                            ) : <Button className="px-8 py-2 text-xl mt-2">
+                                                Mint
+                                            </Button>
+
+                                        }
                                     </Box>
                                 ))
                             )}
