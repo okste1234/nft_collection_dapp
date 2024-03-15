@@ -13,6 +13,7 @@ configureWeb3Modal();
 
 
 function App() {
+
     const tokensData = useCollections();
     const { data: { data, addrress }, isMintedId } = useMyNfts();
     const handleMint = useMint();
@@ -31,7 +32,7 @@ function App() {
 
     const mytokens = myTokensData.map((x) => ({
         ...x,
-        isMintedId
+        data
     }));
 
 
@@ -59,12 +60,12 @@ function App() {
                                             Description: {x.description}
                                         </Text>
                                         <Flex direction="column" gap="2" style={{ marginBottom: "2rem" }}>
-                                            <a className="px-2 py-1 text-lg mt-2 bg-blue-700 text-white rounded-lg" href={`${import.meta.env.VITE_opeasea_base_url}${x.isMintedId[index]}`}>OpeaSea</a>
+                                            <a className="px-2 py-1 text-lg mt-2 bg-blue-700 text-white rounded-lg" href={`${import.meta.env.VITE_opeasea_base_url}${x.data[index]}`}>OpeaSea</a>
                                             <Popup className="mt-2"
                                                 Transfer={
                                                     <Text>Transfer</Text>
                                                 }
-                                                id={x.isMintedId[index]}
+                                                id={x.data[index]}
                                             />
 
 
