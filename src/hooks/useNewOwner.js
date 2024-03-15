@@ -1,21 +1,22 @@
 import { ethers } from "ethers";
 import { useCallback, useEffect, useState } from "react";
 import { wssProvider } from "../constants/providers";
-// import erc721 from "../constants/erc721.json";
 
 
 const useNewOwner = () => {
     const [address, setAddress] = useState("");
-    // const itf = useMemo(() => new ethers.Interface(erc721), []);
 
 
     const eventListerner = useCallback((log) => {
-        console.log("testing event: ", toString(log.topics[2]));
+        console.log("eventAA", log.topics[2]);
 
-        const de = ethers.AbiCoder.defaultAbiCoder().decode[["address"], String(log.topics[2])]
-        // const decodedResponses = itf.decodeEventLog("Transfer", toString(log.topics[2]))
+        const result = String(log.topics[2])
+
+        console.log("testing event: ", result);
+
+
+        const de = ethers.AbiCoder.defaultAbiCoder().decode(["address"], result)
         console.log("decodedResponses: ", de);
-        // console.log("another", decodedResponses);
         setAddress("")
     }, []);
 
